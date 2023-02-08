@@ -1,18 +1,14 @@
-
 import { useFormik } from 'formik'
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import SkillCard from '../components/SkillCard';
 import UserContext from '../Context/UserContext';
 
-function FormPage() {
+function EditPage() {
     const userContextData = useContext(UserContext);
     const navigate = useNavigate()
     let [dob, setDob] = useState()
     let skillRef = useRef()
-    // let [skills, setSkills] = useState([])
-
-
     let handleSkill = () => {
         userContextData.setSkills([...userContextData.skills, skillRef.current.value])
         skillRef.current.value = ""
@@ -23,6 +19,12 @@ function FormPage() {
         userContextData.skills.splice(skillIndex, 1)
         userContextData.setSkills([...userContextData.skills])
     }
+
+    useEffect(() => {
+        formik.setValues(userContextData.profile);
+    }, []);
+
+
     const formik = useFormik({
         initialValues: {
             firstName: "",
@@ -77,6 +79,10 @@ function FormPage() {
         }
 
     })
+
+
+
+
     return (
         <div className='container'>
             <h2 className="text-center mt-5">Profile Maker</h2>
@@ -191,10 +197,10 @@ function FormPage() {
                             className="form-control"
                             onChange={(e) => setDob(e.target.value)}
                         />
-                        {/* {formik.errors.age ? (
+                        {/* {formik.errors.dateOfBirth ? (
                             <span style={{ color: 'red' }}>
                                 {" "}
-                                {formik.errors.age}
+                                {formik.errors.dateOfBirth}
                             </span>
                         ) : null} */}
                     </div>
@@ -325,4 +331,4 @@ function FormPage() {
     )
 }
 
-export default FormPage
+export default EditPage

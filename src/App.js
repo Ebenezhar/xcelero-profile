@@ -2,6 +2,7 @@ import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import FormPage from './Pages/FormPage';
 import Summary from './Pages/Summary';
+import EditPage from './Pages/EditPage';
 
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<FormPage />} />
         <Route path="/view" element={<Summary />} />
+        <Route path="/edit" element={<EditPage />} />
       </Routes>
     </BrowserRouter>
   );

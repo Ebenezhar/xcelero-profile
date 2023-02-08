@@ -19,6 +19,11 @@ function Summary() {
 
     let navigateHome = () => {
         navigate('/')
+        window.location.reload()
+    }
+
+    let editInfo = () => {
+        navigate('/edit')
     }
 
     return (
@@ -26,6 +31,7 @@ function Summary() {
             <h3>Summary of your Profile</h3>
             <div className='text-end'>
                 <button onClick={navigateHome} className='btn btn-primary m-2'>Home <i className="fa-solid fa-house-chimney"></i></button>
+                <button onClick={editInfo} className='btn btn-info m-2'>Edit <i class="fa-solid fa-user-pen"></i></button>
                 <button onClick={generatePdf} className='btn btn-success m-2'>Generate PDF <i className="fa-solid fa-file-pdf"></i></button>
             </div>
             <div style={{ height: "830px", width: "600px" }} id="profile-page" className='row '>
