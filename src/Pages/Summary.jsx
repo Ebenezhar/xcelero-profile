@@ -1,16 +1,32 @@
 import jsPDF from 'jspdf';
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import Model1 from '../components/models/Model1';
+import Model2 from '../components/models/Model2';
+import Model3 from '../components/models/Model3';
 import UserContext from '../Context/UserContext';
 
 function Summary() {
     const userContextData = useContext(UserContext);
     console.log(userContextData.profile);
-    let navigate = useNavigate()
+    const [model, setModel] = useState(<Model1 />)
+    let navigate = useNavigate();
+
+
+    let handleModel = (modelNum) => {
+        if (modelNum == 1) {
+            setModel(<Model1 />)
+        } else if (modelNum == 2) {
+            setModel(<Model2 />)
+        }
+        else if (modelNum == 3) {
+            setModel(<Model3 />)
+        }
+    }
 
     let generatePdf = () => {
         let doc = new jsPDF("p", "pt", "a4");
-        doc.html(document.querySelector("#profile-page"), {
+        doc.html(document.querySelector("#page"), {
             callback: function (pdf) {
                 pdf.save(`${userContextData.profile.firstName} Profile.pdf`)
             }
@@ -34,31 +50,13 @@ function Summary() {
                 <button onClick={editInfo} className='btn btn-info m-2'>Edit <i class="fa-solid fa-user-pen"></i></button>
                 <button onClick={generatePdf} className='btn btn-success m-2'>Generate PDF <i className="fa-solid fa-file-pdf"></i></button>
             </div>
-            <div style={{ height: "830px", width: "600px" }} id="profile-page" className='row '>
-                <div style={{ width: "250px" }} className=' bg-secondary p-2 px-5 pt-5 m-0'>
-                    <h5>Contact Details</h5>
-                    <h6 className='px-1'>Country</h6>
-                    <p className='px-2'>{userContextData.profile && userContextData.profile.country}</p>
-                    <h6 className='px-1'>Email: </h6>
-                    <p className='px-2'>{userContextData.profile && userContextData.profile.email}</p>
-                </div>
-                <div style={{ width: "350px", height: "100%" }} className='col p-2 px-5 pt-5 m-0'>
-                    <span style={{ fontSize: "25px", "font-weight": "bold" }}>{userContextData.profile && userContextData.profile.firstName} </span>
-                    <span style={{ fontSize: "25px", "font-weight": "bold" }}>{userContextData.profile && userContextData.profile.secondName}</span>
-                    <h5 className='mt-2'>Personal Details</h5>
-                    <p className='px-2'><strong>Age: </strong>{userContextData.profile && userContextData.profile.age}</p>
-                    <h6>------</h6>
-                    <h5>Experience</h5>
-                    <p className='px-2'><strong>In Years: </strong>{userContextData.profile && userContextData.profile.yearsOfExp}</p>
-                    <p className='px-2'><strong>Company Name: </strong>{userContextData.profile && userContextData.profile.company}</p>
-                    <h6>------</h6>
-                    <h5>Department</h5>
-                    <p className='px-2'><strong>Department: </strong>{userContextData.profile && userContextData.profile.department}</p>
-                    <h5>Skills: </h5>
-                    <ul>
-                        {userContextData.profile.skills && userContextData.profile.skills.map(skill => <li>{skill}</li>)}
-                    </ul>
-                </div>
+            <div style={{ "background-color": "#DAF7A6" }} className='col m-2'>
+                <button onClick={() => handleModel(1)} className='m-1 btn btn-light'>Model 1</button>
+                <button onClick={() => handleModel(2)} className='m-1 btn btn-light'>Model 2</button>
+                <button onClick={() => handleModel(3)} className='m-1 btn btn-light'>Model 3</button>
+            </div>
+            <div style={{ "background-color": "white" }} id="page">
+                {model}
             </div>
 
         </div >
